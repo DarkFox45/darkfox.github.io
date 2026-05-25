@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Спасибо, родители!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(135deg, #fdf6e3 0%, #fce4c8 50%, #f8d5b0 100%);
+      min-height: 100vh;
+      color: #3e2723;
+      overflow-x: hidden;
+    }
+
+    /* ========== floating decorations ========== */
+    .floating-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-bg span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 183, 77, 0.15);
+      border-radius: 50%;
+      animation: floatUp 15s infinite linear;
+    }
+
+    .floating-bg span:nth-child(1)  { left:  5%; width: 40px; height: 40px; animation-delay: 0s;   animation-duration: 18s; }
+    .floating-bg span:nth-child(2)  { left: 15%; width: 25px; height: 25px; animation-delay: 2s;  animation-duration: 14s; }
+    .floating-bg span:nth-child(3)  { left: 30%; width: 50px; height: 50px; animation-delay: 4s;  animation-duration: 20s; }
+    .floating-bg span:nth-child(4)  { left: 45%; width: 30px; height: 30px; animation-delay: 1s;  animation-duration: 16s; }
+    .floating-bg span:nth-child(5)  { left: 55%; width: 45px; height: 45px; animation-delay: 3s;  animation-duration: 19s; }
+    .floating-bg span:nth-child(6)  { left: 70%; width: 35px; height: 35px; animation-delay: 5s;  animation-duration: 15s; }
+    .floating-bg span:nth-child(7)  { left: 80%; width: 55px; height: 55px; animation-delay: 2s;  animation-duration: 22s; }
+    .floating-bg span:nth-child(8)  { left: 90%; width: 28px; height: 28px; animation-delay: 6s;  animation-duration: 13s; }
+    .floating-bg span:nth-child(9)  { left: 50%; width: 60px; height: 60px; animation-delay: 8s;  animation-duration: 25s; }
+    .floating-bg span:nth-child(10) { left: 10%; width: 22px; height: 22px; animation-delay: 7s;  animation-duration: 17s; }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2) rotate(720deg); opacity: 0; }
+    }
+
+    /* ========== main container ========== */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ========== header ========== */
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header .badge {
+      display: inline-block;
+      background: #d7ccc8;
+      color: #4e342e;
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6d4c41, #bf360c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .header .sub {
+      margin-top: 12px;
+      font-size: 20px;
+      color: #6d4c41;
+      font-style: italic;
+    }
+
+    .header .divider {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #ffab91, #d84315);
+      margin: 20px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ========== heart intro ========== */
+    .heart-intro {
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.7;
+      color: #4e342e;
+      margin-bottom: 50px;
+      padding: 0 10px;
+    }
+
+    .heart-intro .heart {
+      display: inline-block;
+      font-size: 32px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25%      { transform: scale(1.15); }
+      50%      { transform: scale(1); }
+      75%      { transform: scale(1.15); }
+    }
+
+    /* ========== letter card ========== */
+    .letter {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 50px 44px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .letter::before {
+      content: '\201C';
+      position: absolute;
+      top: -10px;
+      left: 30px;
+      font-size: 120px;
+      color: rgba(216, 67, 21, 0.12);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .letter p {
+      font-size: 18px;
+      line-height: 1.9;
+      margin-bottom: 20px;
+      text-indent: 28px;
+      color: #3e2723;
+    }
+
+    .letter p:last-child {
+      margin-bottom: 0;
+    }
+
+    .letter .signature {
+      text-align: right;
+      margin-top: 30px;
+      font-style: italic;
+      font-size: 19px;
+      text-indent: 0;
+    }
+
+    .letter .signature strong {
+      font-style: normal;
+    }
+
+    /* ========== photos ========== */
+    .photos {
+      margin-bottom: 50px;
+    }
+
+    .photos h2 {
+      text-align: center;
+      font-size: 26px;
+      color: #4e342e;
+      margin-bottom: 24px;
+    }
+
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffccbc, #ffab91);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: #bf360c;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .photo-placeholder:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    /* ========== qualities cloud ========== */
+    .qualities {
+      margin-bottom: 50px;
+    }
+
+    .qualities h2 {
+      text-align: center;
+      font-size: 26px;
+      color: #4e342e;
+      margin-bottom: 24px;
+    }
+
+    .cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .cloud .tag {
+      background: #fff;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 15px;
+      color: #4e342e;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 183, 77, 0.3);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .cloud .tag:nth-child(1)  { font-size: 17px; }
+    .cloud .tag:nth-child(2)  { font-size: 19px; }
+    .cloud .tag:nth-child(3)  { font-size: 16px; }
+    .cloud .tag:nth-child(4)  { font-size: 20px; }
+    .cloud .tag:nth-child(5)  { font-size: 15px; }
+    .cloud .tag:nth-child(6)  { font-size: 18px; }
+    .cloud .tag:nth-child(7)  { font-size: 21px; }
+    .cloud .tag:nth-child(8)  { font-size: 16px; }
+    .cloud .tag:nth-child(9)  { font-size: 19px; }
+    .cloud .tag:nth-child(10) { font-size: 18px; }
+    .cloud .tag:nth-child(11) { font-size: 22px; }
+    .cloud .tag:nth-child(12) { font-size: 17px; }
+
+    .cloud .tag:hover {
+      background: #bf360c;
+      color: #fff;
+      border-color: #bf360c;
+      transform: scale(1.05);
+    }
+
+    /* ========== music toggle ========== */
+    .music-btn {
+      display: block;
+      margin: 0 auto 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(191, 54, 12, 0.3);
+      color: #4e342e;
+      padding: 10px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      backdrop-filter: blur(4px);
+    }
+
+    .music-btn:hover {
+      background: #bf360c;
+      color: #fff;
+      border-color: #bf360c;
+    }
+
+    /* ========== confetti button ========== */
+    .celebrate-btn {
+      display: block;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #ff8a65, #d84315);
+      border: none;
+      color: #fff;
+      padding: 14px 40px;
+      border-radius: 100px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+      box-shadow: 0 4px 16px rgba(216, 67, 21, 0.3);
+    }
+
+    .celebrate-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 24px rgba(216, 67, 21, 0.4);
+    }
+
+    .celebrate-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* ========== footer ========== */
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      color: #8d6e63;
+    }
+
+    /* ========== confetti canvas ========== */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ========== responsive ========== */
+    @media (max-width: 640px) {
+      .container { padding: 36px 16px 60px; }
+      .header h1 { font-size: 32px; }
+      .letter { padding: 32px 20px; }
+      .letter p { font-size: 16px; }
+      .photos-grid { grid-template-columns: 1fr; gap: 12px; }
+      .photo-placeholder { aspect-ratio: 4 / 3; }
+      .heart-intro { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- floating background -->
+  <div class="floating-bg">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ========== main ========== -->
+  <div class="container">
+
+    <!-- header -->
+    <div class="header">
+      <div class="badge">Последний звонок 2026</div>
+      <h1>Спасибо, родные!</h1>
+      <p class="sub">Благодарность родителям</p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- heart intro -->
+    <div class="heart-intro">
+      <span class="heart">❤</span>
+      &nbsp;Мама и папа, этот праздник — ваш&nbsp;
+      <span class="heart">❤</span>
+    </div>
+
+    <!-- letter -->
+    <div class="letter">
+      <p>
+        Сегодня для нас звучит последний звонок. Позади — школьные годы,
+        первые пятёрки и двойки, бессонные ночи перед экзаменами,
+        радость побед и горечь ошибок. И всё это время рядом были вы —
+        самые родные и любимые люди на свете.
+      </p>
+      <p>
+        Спасибо вам за то, что верили в меня, когда я сам сомневался.
+        За то, что поддерживали, когда опускались руки. За тёплый ужин
+        после трудного дня и за мудрый совет в нужную минуту. За каждую
+        прочитанную вместе книгу, за каждый школьный концерт, за каждое
+        «всё будет хорошо».
+      </p>
+      <p>
+        Вы отдали мне столько тепла, заботы и любви, что я чувствую
+        это сердцем каждый день. Ваши руки, ваши глаза, ваши слова —
+        всё это стало моей опорой, моим фундаментом, моим домом.
+      </p>
+      <p>
+        Спасибо за бессонные ночи у моей кроватки, за выученные со мной
+        стихи, за собранные портфели, за переживания и молитвы.
+        Спасибо, что научили меня быть человеком — честным, добрым,
+        смелым и благодарным.
+      </p>
+      <p>
+        Я обещаю, что ваша любовь не пропадёт даром. Я постараюсь стать
+        достойным человеком, которым вы сможете гордиться. Потому что
+        вы — мои главные учителя в этой жизни.
+      </p>
+      <p>
+        Сегодня последний звонок, но наша с вами история продолжается.
+        Спасибо за всё, родные. Я вас очень сильно люблю!
+      </p>
+      <p class="signature">
+        С любовью и благодарностью,<br>
+        <strong>Ваш ребёнок</strong>
+      </p>
+    </div>
+
+    <!-- photos -->
+    <div class="photos">
+      <h2>Наши мгновения</h2>
+      <div class="photos-grid">
+        <div class="photo-placeholder" id="photo-1"><img src="image-2019-06-29 18_20_05.jpg" alt=""></div>
+        <div class="photo-placeholder" id="photo-2"><img src="IMG_20150630_174941_0.jpg" alt=""></div>
+        <div class="photo-placeholder" id="photo-3"><img src="0-02-04-bd16a5b10a35bd6ceec4287ef58aa1800b92cc8fd4bc4daf0c1d8ecf94ef3db1_6aeb88f4.jpg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- qualities -->
+    <div class="qualities">
+      <h2>Мои родители — это...</h2>
+      <div class="cloud">
+        <span class="tag">Любовь</span>
+        <span class="tag">Забота</span>
+        <span class="tag">Поддержка</span>
+        <span class="tag">Теплота</span>
+        <span class="tag">Мудрость</span>
+        <span class="tag">Терпение</span>
+        <span class="tag">Надежда</span>
+        <span class="tag">Прощение</span>
+        <span class="tag">Вдохновение</span>
+        <span class="tag">Защита</span>
+        <span class="tag">Дом</span>
+        <span class="tag">Счастье</span>
+      </div>
+    </div>
+
+    <!-- controls -->
+    <button class="music-btn" id="music-btn">🔇 Включить музыку</button>
+    <button class="celebrate-btn" id="celebrate-btn">🎉 Устроить салют!</button>
+
+    <!-- footer -->
+    <div class="footer">
+      Последний звонок 2026 &nbsp;·&nbsp; Сделано с ❤
+    </div>
+  </div>
+
+  <script>
+    // ========== confetti ==========
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const colors = ['#ff8a65','#d84315','#ffab91','#ffccbc',
+                    '#ffd54f','#ffb300','#4caf50','#29b6f6','#e91e63'];
+    const pieces = [];
+
+    function random(a, b) { return Math.random() * (b - a) + a; }
+
+    function launchConfetti(count = 160) {
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: W / 2 + random(-W * 0.4, W * 0.4),
+          y: random(-H * 0.3, -10),
+          w: random(6, 12),
+          h: random(6, 12),
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: random(-4, 4),
+          vy: random(3, 9),
+          rot: random(0, Math.PI * 2),
+          rv: random(-0.1, 0.1),
+          gravity: random(0.08, 0.18),
+          opacity: 1,
+          fade: random(0.003, 0.008),
+        });
+      }
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = pieces.length - 1; i >= 0; i--) {
+        const p = pieces[i];
+        p.x += p.vx;
+        p.vy += p.gravity;
+        p.y += p.vy;
+        p.rot += p.rv;
+        p.opacity -= p.fade;
+
+        if (p.opacity <= 0 || p.y > H + 20) {
+          pieces.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      requestAnimationFrame(animateConfetti);
+    }
+    animateConfetti();
+
+    document.getElementById('celebrate-btn').addEventListener('click', () => {
+      launchConfetti(200);
+    });
+
+    // ========== music ==========
+    let audioCtx = null;
+    let isPlaying = false;
+    let gainNode = null;
+    const musicBtn = document.getElementById('music-btn');
+
+    // simple calm melody using oscillators
+    function createMusic(ctx, gain) {
+      const now = ctx.currentTime;
+      // gentle melody in C major
+      const notes = [
+        262, 294, 330, 349, 392, 349, 330, 294,
+        262, 330, 392, 523, 392, 330, 294, 262,
+        294, 349, 440, 349, 294, 262, 294, 330,
+        262, 294, 330, 349, 392, 349, 330, 294,
+      ];
+      const noteLen = 0.6;
+
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const noteGain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+
+        const start = now + i * noteLen;
+        noteGain.gain.setValueAtTime(0, start);
+        noteGain.gain.linearRampToValueAtTime(0.12, start + 0.05);
+        noteGain.gain.linearRampToValueAtTime(0.10, start + noteLen * 0.7);
+        noteGain.gain.linearRampToValueAtTime(0, start + noteLen);
+
+        osc.connect(noteGain);
+        noteGain.connect(gain);
+        osc.start(start);
+        osc.stop(start + noteLen + 0.05);
+      });
+    }
+
+    musicBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          gainNode = audioCtx.createGain();
+          gainNode.gain.value = 0.4;
+          gainNode.connect(audioCtx.destination);
+        }
+        createMusic(audioCtx, gainNode);
+        musicBtn.textContent = '🔊 Музыка играет';
+        musicBtn.style.background = '#bf360c';
+        musicBtn.style.color = '#fff';
+        isPlaying = true;
+
+        // loop every 20s
+        if (window._musicInterval) clearInterval(window._musicInterval);
+        window._musicInterval = setInterval(() => {
+          createMusic(audioCtx, gainNode);
+        }, 20000);
+      } else {
+        musicBtn.textContent = '🔇 Включить музыку';
+        musicBtn.style.background = '';
+        musicBtn.style.color = '';
+        if (window._musicInterval) {
+          clearInterval(window._musicInterval);
+          window._musicInterval = null;
+        }
+        isPlaying = false;
+      }
+    });
+
+    // ========== photo upload ==========
+    for (let i = 1; i <= 3; i++) {
+      const el = document.getElementById('photo-' + i);
+      el.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = () => {
+          const file = input.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            el.textContent = '';
+            el.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      });
+    }
+  </script>
+</body>
+</html>
